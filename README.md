@@ -1,1 +1,1 @@
-Short program that represents Graphs JAVA
+Short project representing Graphs JAVA
