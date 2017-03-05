@@ -19,7 +19,7 @@ public class ExecutiveClass {
  		koledzy.addEdge(janusz, maciek);
  		//koledzy.addEdge(janusz, gienek); 		
  		System.out.println(koledzy.containsEdge(janusz, maciek));
-
+ 		System.out.println("Test update github");
 		//koledzy.removeVertex(krzysiek);
 		//System.out.println(koledzy.toString());
 
