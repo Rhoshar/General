@@ -23,7 +23,24 @@ public class Vertex<T> {
     public void increaseDegree(){
     	this.degree++;
     }
+    
+    @Override
+    public boolean equals(Object obj){
+    if (obj instanceof Vertex<?>){
+        if ( ((Vertex<?>)obj).vertex.equals(vertex) ){
+            return true;
+        }
+    }
+    return false;  
+    }
+    
+    @Override
+    public int hashCode(){
+    	return this.vertex.hashCode();
+    }
+    
+    @Override
     public String toString(){
-    	return vertex.toString();
+    	return this.vertex.toString();
     }
 }

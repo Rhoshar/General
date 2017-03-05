@@ -8,21 +8,20 @@ public class Graph<T>{
     private Set<Edge<T>> edges;
     
     Graph(){
-    	this.vertices = new HashSet<>();
-    	this.edges = new HashSet<>();
+    	vertices = new HashSet<>();
+    	edges = new HashSet<>();
     }
     
     private Vertex<T> convertToVertex(T vertex){
     	Vertex<T> temp = null;
     	for(Vertex<T> v: this.vertices){
-    		if(v.vertex == vertex){
+    		if(v.vertex.equals(vertex)){
     			temp = v;
     			break;
     		}
     	}
     	if(temp == null){
-    		System.out.println();
-            throw new NullPointerException("Wierzcho³ek "+vertex.toString()+
+    		throw new NullPointerException("Wierzcho³ek "+vertex.toString()+
             			" nie istnieje w danym grafie!");
     	}
     	return temp;
@@ -31,15 +30,14 @@ public class Graph<T>{
     private Edge<T> convertToEdge(T vertex1, T vertex2){
     	Edge<T> temp = null;
     	for(Edge<T> e: this.edges){
-    		if((e.start.vertex == vertex1 && e.end.vertex == vertex2) ||
-    			(e.start.vertex == vertex2 && e.end.vertex == vertex1)){
+    		if((e.start.vertex.equals(vertex1) && e.end.vertex.equals(vertex2)) ||
+    			(e.start.vertex.equals(vertex2) && e.end.vertex.equals(vertex1))){
     			temp = e;
     			break;
     		}
     	}
     	if(temp == null){
-    		System.out.println(this.edges.toString());
-            throw new NullPointerException("Krawedz ("+vertex1.toString()+", "+vertex2.toString()+
+    		throw new NullPointerException("Krawedz ("+vertex1.toString()+", "+vertex2.toString()+
             			") nie istnieje w danym grafie!");
     	}
     	return temp;
@@ -61,20 +59,36 @@ public class Graph<T>{
     
     public void removeVertex(T vertex){
     	Vertex<T> temp = this.convertToVertex(vertex);
+    	Set<Edge<T>> toRemove = new HashSet<>();
     	for(Edge<T> e: this.edges){
-    		if(e.start == temp || e.end == temp)
-    			this.edges.remove(e);
+    		if(temp.equals(e.start) || temp.equals(e.end))
+    			toRemove.add(e);
     	}
+    	for(Edge<T> e: toRemove)
+    		this.edges.remove(e);
     	this.vertices.remove(temp);
     }
     
     public boolean containsVertex(T vertex){
-    	return this.vertices.contains(this.convertToVertex(vertex));
+    	return vertices.contains(this.convertToVertex(vertex));
     }
     
     public boolean containsEdge(T vertex1, T vertex2){
     	return edges.contains(this.convertToEdge(vertex1, vertex2));
     }
+    
+    public Set<Vertex<T>> findNeighbours(T vertex){
+    	Vertex<T> tempVertex = this.convertToVertex(vertex);
+    	Set<Vertex<T>> neighbours = new HashSet<Vertex<T>>();
+    	for(Edge<T> e: edges){
+        	if(tempVertex.equals(e.start))
+    			neighbours.add(e.end);
+    		else if(tempVertex.equals(e.end))
+    			neighbours.add(e.start);
+    	}
+    	return neighbours;
+    }
+    
     public int vertexDegree(T vertex){
     	return this.convertToVertex(vertex).degree;
     }
